@@ -1,0 +1,27 @@
+# Edits to Biafra Dashboard
+
+library(readxl)
+library(data.table)
+library(stringr)
+
+Nigeria_Armed_Conflicts <- read_excel("//dos01awpdicxc01.gec.aip/ctxhome/BoatnerJS/My Documents/Nigeria Armed Conflicts.xlsx")
+Nigeria_Armed_Conflicts$Biafra <- ""
+
+Nigeria_Armed_Conflicts$Biafra <- ifelse((Nigeria_Armed_Conflicts$actor1 %like% "Biafra"), 1, Nigeria_Armed_Conflicts$Biafra)
+Nigeria_Armed_Conflicts$Biafra <- ifelse((Nigeria_Armed_Conflicts$actor2 %like% "Biafra"), 1, Nigeria_Armed_Conflicts$Biafra)
+Nigeria_Armed_Conflicts$Biafra <- ifelse((Nigeria_Armed_Conflicts$assocActor1 %like% "Biafra"), 1, Nigeria_Armed_Conflicts$Biafra)
+Nigeria_Armed_Conflicts$Biafra <- ifelse((Nigeria_Armed_Conflicts$assocActor2 %like% "Biafra"), 1, Nigeria_Armed_Conflicts$Biafra)
+Nigeria_Armed_Conflicts$Biafra <- ifelse((Nigeria_Armed_Conflicts$notes %like% "Biafra"), 1, Nigeria_Armed_Conflicts$Biafra)
+
+Nigeria_Armed_Conflicts$Biafra <- ifelse(Nigeria_Armed_Conflicts$Biafra!=1, 0, Nigeria_Armed_Conflicts$Biafra)
+
+write.csv(Nigeria_Armed_Conflicts, "Nigeria_all_w_dummy.csv")
+
+# Clean up tweets
+
+biafra_tweets_tableau <- read_excel("//dos01awpdicxc01.gec.aip/ctxhome/BoatnerJS/My Documents/biafra tweets tableau.xlsx")
+
+biafra_tweets_tableau$tweet <- gsub("â€™", "'", biafra_tweets_tableau$tweet)
+biafra_tweets_tableau$tweet <- gsub("â€", "", biafra_tweets_tableau$tweet)
+
+write.csv(biafra_tweets_tableau, "biafra_tweets_tableau.csv")
