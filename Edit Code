@@ -25,3 +25,11 @@ biafra_tweets_tableau$tweet <- gsub("â€™", "'", biafra_tweets_tableau$tweet
 biafra_tweets_tableau$tweet <- gsub("â€", "", biafra_tweets_tableau$tweet)
 
 write.csv(biafra_tweets_tableau, "biafra_tweets_tableau.csv")
+
+# merge for tooltip
+Nigeria_all_w_dummy <- read_excel("//dos01awpdicxc01.gec.aip/ctxhome/BoatnerJS/My Documents/Nigeria_all_w_dummy.xlsx")
+biafra_twitter_state_data <- read_excel("//dos01awpdicxc01.gec.aip/ctxhome/BoatnerJS/My Documents/biafra twitter state data.xlsx")
+
+merged <- merge(Nigeria_all_w_dummy, biafra_twitter_state_data, by.x = "eventDate", by.y = "Date", all.x = TRUE, all.y = TRUE)
+
+write.csv(merged, "tooltip data.csv")
